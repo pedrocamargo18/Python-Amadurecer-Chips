@@ -1,1 +1,0 @@
-python enviar_mensagem.py
