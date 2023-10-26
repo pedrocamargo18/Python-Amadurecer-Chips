@@ -6,46 +6,76 @@ import pyautogui as pg
 import numpy as np
 import logging
 import tempfile
-
+import pywhatkit as pwt
+import os
 
 tmp = tempfile.gettempdir()
 logging.basicConfig(level=logging.INFO,filename=f"{tmp}\\registro.log", format="%(asctime)s - %(message)s ")
 
-print("Escolha uma das opções: \n1 - Iniciar \n2 - Configurar Caminho dos Navegadores")
+print("Escolha uma das opções: \n1 - Iniciar Aquecimento \n3 - Iniciar Disparo \n2 - Configurar Caminho dos Navegadores")
 op = int(input("Selecione a Opção: "))
-if op == 2:
 
-    arquivo = open('path_navegadores.txt', 'r')
-    chrome_path = arquivo.readline()
-    print(chrome_path)
-    brave_path = arquivo.readline()
-    print(brave_path)
-    edge_path = arquivo.readline()
-    print(edge_path)
-    opera_path = arquivo.readline()
-    print(opera_path)
-    op = int(input("Iniciar o codigo?\n1 - Sim / 2 - Nao :  "))
 
-    if op == 2:
-        exit()
+data = pd.read_csv("dados.CSV", sep=";", converters={0:str})
+df = pd.DataFrame(data)
+data_dict = data.to_dict('list')
+leads = data_dict['WhatsApp']
+df_leads = df[~df['WhatsApp'].isin(['', np.nan])]['WhatsApp'].dropna(ignore_index=True).astype(str)
+msg = data_dict['msg']
+cont_num = len(df_leads)
+sessao = 1
+cont = 0
 
-else:
-    ## PATH DOS NAVEGADORES
-    chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe %s"
-    brave_path = "C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe %s"
-    edge_path = "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe %s"
+def search(file,path):
+    for (root, dirs, files) in os.walk(path, topdown=True):
+        #print(root)
+        #print(dirs)
+        #print(files)
+        if file in files:
+            return True
+        else:
+            return False
 
 try:
-    data = pd.read_csv("dados.CSV", sep=";")
-    df = pd.DataFrame(data)
-    data_dict = data.to_dict('list')
-    leads = data_dict['WhatsApp']
-    df_leads = df[~df['WhatsApp'].isin(['', np.nan])]['WhatsApp'].dropna(ignore_index=True)
-    msg = data_dict['msg']
-    cont_num = len(df_leads)
-    sessao = 1
-    cont = 0
+    ##Disparo
+    if op == 3:
+        image = input("Insira o nome da Imagem que será enviada ( Nome com a extensão do arquivo ): ")
+        path = r"Imagens"
+        file = image
+        teste = search(file, path)
+        print(teste)
+        if image == False:
+            print("vazio")
+        else:
+            for n in df_leads:
+                print(n)
+                pwt.sendwhats_image(f'+{n}',  f'{image}')
 
+
+    ##Config
+    if op == 2:
+        arquivo = open('path_navegadores.txt', 'r')
+        chrome_path = arquivo.readline()
+        print(chrome_path)
+        brave_path = arquivo.readline()
+        print(brave_path)
+        edge_path = arquivo.readline()
+        print(edge_path)
+        opera_path = arquivo.readline()
+        print(opera_path)
+        op = int(input("Iniciar o codigo?\n1 - Sim / 2 - Nao :  "))
+
+        if op == 2:
+            exit()
+
+    else:
+        ## PATH DOS NAVEGADORES
+        chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe %s"
+        brave_path = "C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe %s"
+        edge_path = "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe %s"
+        opera_path = "C:/Users/Poupacred/AppData/Local/Programs/Opera/opera.exe %s"
+
+    ##Aquecimento
     if op == 1:
         for m in msg:
             logging.info("INICIADO O PROGRAMA !!")
