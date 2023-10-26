@@ -5,17 +5,26 @@ import random
 import pyautogui as pg
 import numpy as np
 import logging
+import tempfile
 
-logging.basicConfig(level=logging.INFO,filename="registro.log", format="%(asctime)s - %(message)s ")
 
-print("Escolha uma das opções: \n1 - Iniciar \n2 - Configurar Caminho do Navegador")
+tmp = tempfile.gettempdir()
+logging.basicConfig(level=logging.INFO,filename=f"{tmp}\\registro.log", format="%(asctime)s - %(message)s ")
+
+print("Escolha uma das opções: \n1 - Iniciar \n2 - Configurar Caminho dos Navegadores")
 op = int(input("Selecione a Opção: "))
 if op == 2:
-    chrome_path = input("Insira o PATH/CAMINHO do Chrome: ")
-    brave_path = input("Insira o PATH/CAMINHO do Brave: ")
-    edge_path = input("Insira o PATH/CAMINHO do Edge: ")
-    opera_path = input("Insira o PATH/CAMINHO do Opera: ")
-    op = int(input("Iniciar o codigo? 1 - Sim / 2 - Nao : "))
+
+    arquivo = open('path_navegadores.txt', 'r')
+    chrome_path = arquivo.readline()
+    print(chrome_path)
+    brave_path = arquivo.readline()
+    print(brave_path)
+    edge_path = arquivo.readline()
+    print(edge_path)
+    opera_path = arquivo.readline()
+    print(opera_path)
+    op = int(input("Iniciar o codigo?\n1 - Sim / 2 - Nao :  "))
 
     if op == 2:
         exit()
@@ -25,7 +34,6 @@ else:
     chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe %s"
     brave_path = "C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe %s"
     edge_path = "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe %s"
-    opera_path = "C:/Users/Administrador/AppData/Local/Programs/Opera GX/opera.exe %s"
 
 try:
     data = pd.read_csv("dados.CSV", sep=";")
