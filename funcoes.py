@@ -1,4 +1,5 @@
 import os
+import threading
 import time
 import random
 import pyautogui as pg
@@ -14,15 +15,18 @@ def search(file, path):
             return False
 
 
-def aquecer(df, df_leads, cont_num, choice_is_equal, choice, chrome_path, brave_path, edge_path, opera_path, WIDTH, HEIGHT ):
+def aquecer(df, df_leads, cont_num, chrome_path, brave_path, edge_path, opera_path, WIDTH, HEIGHT ):
     navegadores = [chrome_path, brave_path, edge_path, opera_path]
     tp_envio = random.randint(1, 10)  # 30seg a 3min
+    choice = random.randint(0, 3)
+    choice_is_equal = 0
+    print(choice)
     print(f"Tempo para envio de mensagem: {tp_envio} Segundos.")
     time.sleep(tp_envio)
     if choice_is_equal == choice:
-        if choice == 0:
+        if choice <= 1:
             choice = choice + 1
-        if choice == 3:
+        if choice > 1:
             choice = choice - 1
 
     for c in range(cont_num):
@@ -34,4 +38,4 @@ def aquecer(df, df_leads, cont_num, choice_is_equal, choice, chrome_path, brave_
         pg.press('enter')
         time.sleep(4)
         pg.hotkey('ctrl', 'w')
-        return choice_is_equal
+        choice_is_equal = choice

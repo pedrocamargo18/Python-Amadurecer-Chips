@@ -15,10 +15,12 @@ def janela_menu():
 
 
 def janela_aquecer():
-    layout_center_aquecer = [ [sg.Text('Finalizado o Aquecimento dos CHIPS!', font=("Arial", 22), size=(40,1))],
-        [sg.Button('SAIR', font=("Arial", 16), size=(20, 1), button_color="red")]]
+    layout_center_aquecer = [ [sg.Text('Aquecendo!', font=("Arial", 22), size=(40,1))],
+        [sg.Button('SAIR', font=("Arial", 16), size=(20, 1), button_color="red")],
+        [sg.Button('COMEÇAR', font=("Arial", 16), size=(20, 1), button_color="green")],
+        [sg.ProgressBar(4, orientation='h', size=(100,20), border_width=4, key='-PROGRESS-BAR-')]]
     layout2 = [[sg.VPush(), sg.Column(layout_center_aquecer, element_justification='c'), sg.VPush()]]
-    return sg.Window('PoupaZap - 1.0.1', layout2, icon='icone.ico', size=(600, 200), finalize=True)
+    return sg.Window('PoupaZap - 1.0.1',layout=layout2, icon='icone.ico', size=(600, 200), finalize=True)
 
 
 def janela_disparar():
