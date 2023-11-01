@@ -31,29 +31,37 @@ janela1, janela2 = win.janela_menu(), None
 janela3, janela4 = None, None
 
 while True:
-    window, event, values = sg.read_all_windows(2)
+    window, event, values = sg.read_all_windows()
 
     if window == janela1 and event == sg.WINDOW_CLOSED:
         break
     ##AQUECIMENTO
+    if window == janela1 and event == 'path_check':
+        arquivo = open('path_navegadores.txt', 'r')
+        chrome_path = arquivo.readline()
+        brave_path = arquivo.readline()
+        edge_path = arquivo.readline()
+        opera_path = arquivo.readline()
+        sg.popup('Alterado o PATH com sucesso!')
+
     elif window == janela1 and event == 'Iniciar Aquecimento':
         terminou = False
         WIDTH, HEIGHT = pg.size()
         janela2 = win.janela_aquecer()
         janela1.hide()
     elif window == janela2 and event == 'COMEÇAR':
-        print(window, event, values)
+        window['COMEÇAR'].update(disabled=True)
         cont = 0
         for m in msg:
             logging.info("INICIADO O PROGRAMA !!")
-            event, values = window.read(1000)
-            if event == sg.WINDOW_CLOSED and event == 'SAIR':
-                print("saiu")
-                break
-            #fn.aquecer(df, df_leads, cont_num, chrome_path, brave_path, edge_path, opera_path, WIDTH, HEIGHT)
+            fn.aquecer(df, df_leads, cont_num, chrome_path, brave_path, edge_path, opera_path, WIDTH, HEIGHT)
             cont = cont+1
             print(cont)
+            print(event)
+            if event == sg.WINDOW_CLOSED and event == 'SAIR':
+                break
             window['-PROGRESS-BAR-'].update(cont)
+            time.sleep(3)
         print("TODAS AS MENSAGENS FORAM ENVIADAS ENVIADAS!")
         print("-----------------")
         terminou = True
@@ -84,18 +92,7 @@ while True:
         janela1.un_hide()
 
     elif window == janela1 and event == 'Configurações':
-        janela4 = win.janela_config()
-        janela1.hide()
-        arquivo = open('path_navegadores.txt', 'r')
-        chrome_path = arquivo.readline()
-        brave_path = arquivo.readline()
-        edge_path = arquivo.readline()
-        opera_path = arquivo.readline()
-
-        op = int(input("Iniciar o codigo?\n1 - Sim / 2 - Nao :  "))
-
-        if op == 2:
-            window.close()
+        [sg.popup_ok("LOREM IPSUM\nLOREM IPSUM\n")]
     elif window == janela4 and event == 'SAIR':
         janela4.hide()
         janela1.un_hide()
