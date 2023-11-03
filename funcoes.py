@@ -1,11 +1,10 @@
 import os
-import threading
 import time
 import random
 import pyautogui as pg
 import webbrowser
-import pywhatkit as pwt
-
+import PySimpleGUI as sg
+from PIL import Image
 
 def search(file, path):
     for (root, dirs, files) in os.walk(path, topdown=True):
@@ -20,7 +19,6 @@ def aquecer(df, df_leads, cont_num, chrome_path, brave_path, edge_path, opera_pa
     tp_envio = random.randint(1, 10)  # 30seg a 3min
     choice = random.randint(0, 3)
     choice_is_equal = 0
-    print(choice)
     print(f"Tempo para envio de mensagem: {tp_envio} Segundos.")
     time.sleep(tp_envio)
     if choice_is_equal == choice:
@@ -39,3 +37,8 @@ def aquecer(df, df_leads, cont_num, chrome_path, brave_path, edge_path, opera_pa
         time.sleep(4)
         pg.hotkey('ctrl', 'w')
         choice_is_equal = choice
+
+def salvarImagens(logo):
+    if logo not in [None, '']:
+        file_logo = Image.open(logo)
+        file_logo.save('logo.png')
