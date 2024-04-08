@@ -20,18 +20,11 @@ msg = data_dict['msg']
 cont_num = len(df_leads)
 cont = 0
 cont_lin_percent = 100/len(msg)
-nav = 0
 
-# chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe %s"
-# brave_path = "C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe %s"
-# edge_path = "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe %s"
-# opera_path = "C:/Users/Poupacred/AppData/Local/Programs/Opera/opera.exe %s"
-
-chrome_path = ''
-brave_path = ''
-edge_path = ''
-opera_path = ''
-
+chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe %s"
+brave_path = "C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe %s"
+edge_path = "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe %s"
+opera_path = "C:/Users/Poupacred/AppData/Local/Programs/Opera/opera.exe %s"
 
 janela1, janela2 = win.janela_menu(), None
 janela3, janela4 = None, None
@@ -50,15 +43,6 @@ while True:
         opera_path = arquivo.readline()
         sg.popup('Alterado o PATH com sucesso!')
 
-    if event == 'chrome_check':
-        chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe %s"
-    if event == 'edge_check':
-        edge_path = "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe %s"
-    if event == 'brave_check':
-        brave_path = "C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe %s"
-    if event == 'opera_check':
-        opera_path = "C:/Users/Poupacred/AppData/Local/Programs/Opera/opera.exe %s"
-
     ##AQUECIMENTO
     elif window == janela1 and event == 'Iniciar Aquecimento':
         terminou = False
@@ -70,9 +54,9 @@ while True:
         cont = 0
         for m in msg:
             logging.info("INICIADO O PROGRAMA !!")
-            fn.aquecer(df, df_leads, cont_num, chrome_path, brave_path, edge_path, opera_path, WIDTH, HEIGHT)
+            #fn.aquecer(df, df_leads, cont_num, chrome_path, brave_path, edge_path, opera_path, WIDTH, HEIGHT)
             cont = round(cont+cont_lin_percent,1)
-            cancel = [sg.popup_timed('Cancelar o aquecimento?', auto_close_duration=15, icon='icone.ico')]
+            cancel = [sg.popup_timed('Cancelar o aquecimento?', auto_close_duration=4, icon='icone.ico')]
             if event == sg.WINDOW_CLOSED or cancel[0] == 'OK':
                 event = 'SAIR'
                 window['COMEÇAR'].update(disabled=False)
@@ -89,7 +73,6 @@ while True:
 
     ##DISPAROS
     elif window == janela1 and event == 'Iniciar Disparo':
-
         janela3 = win.janela_aquecer()
         janela1.hide()
         image = input("Insira o nome da Imagem que será enviada ( Nome com a extensão do arquivo ): ")
